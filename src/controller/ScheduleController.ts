@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 import { Schedule } from "../types/Schedule";
 import { v4 as uuidv4 } from "uuid";
+import dayjs from "dayjs";
 
 interface CustomScheduleRequest<T> extends Request {
   body: T;
@@ -11,6 +12,34 @@ class ScheduleController {
 
   async store(request: CustomScheduleRequest<Schedule>, response: Response) {
     const { name, birthDate, scheduleDateTime } = request.body;
+
+    if (!dayjs(scheduleDateTime).isValid()) {
+      return response.status(400).json({ error: "Agendamento inválido." });
+    }
+
+
+    const scheduleDay = dayjs(scheduleDateTime).startOf("day");
+    const appointmentsInDay = this.schedules.filter((sched) =>
+      dayjs(sched.scheduleDateTime).startOf("day").isSame(scheduleDay)
+    );
+
+    if (appointmentsInDay.length >= 20) {
+      return response
+        .status(400)
+        .json({ error: "Número máximo de agendamentos ao dia atingido." });
+    }
+
+    const appointmentsAtSameTime = this.schedules.filter((sched) =>
+      dayjs(sched.scheduleDateTime).isSame(scheduleDateTime)
+    );
+
+    if (appointmentsAtSameTime.length >= 2) {
+      return response
+        .status(400)
+        .json({
+          error: "Número máximo de agendamentos ao mesmo tempo atingido.",
+        });
+    }
 
     const schedule: Schedule = {
       id: uuidv4(),
@@ -60,4 +89,4 @@ class ScheduleController {
   }
 }
 
-export {ScheduleController}
+export { ScheduleController };
