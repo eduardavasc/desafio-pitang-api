@@ -1,4 +1,4 @@
-import { uuid } from "uuidv4";
+import { v7 as uuidV7 } from "uuid";
 
 export class Schedule {
   public readonly id: string;
@@ -9,7 +9,7 @@ export class Schedule {
   public scheduleConclusion?: string | null;
 
   constructor(props: Omit<Schedule, "id">, id?: string) {
-    this.id = id ? id : uuid();
+    this.id = id ? id : uuidV7();
     this.scheduledDate = props.scheduledDate;
     this.patientName = props.patientName;
     this.patientBirthDate = props.patientBirthDate;

@@ -5,37 +5,37 @@ import { ISchedulesRepository } from "../IScheduleRepository";
 import { Schedule } from "../../models/Schedule";
 
 export class PrismaScheduleRepository implements ISchedulesRepository {
-    private prisma: PrismaClient;
+  private prisma: PrismaClient;
 
-    constructor() {
-        this.prisma = new PrismaClient();
-    }
+  constructor() {
+    this.prisma = new PrismaClient();
+  }
 
-    async create(schedule: Schedule): Promise<void> {
-        await this.prisma.schedule.create({
-            data: { ...schedule },
-        });
-    }
+  async create(schedule: Schedule): Promise<void> {
+    await this.prisma.schedule.create({
+      data: { ...schedule },
+    });
+  }
 
-    async getByDateTime(date: Date): Promise<Schedule[]> {
-        return this.prisma.schedule.findMany({
-            where: {
-                scheduledDate: {
-                    gte: dayjs(date).startOf("hour").toDate(),
-                    lte: dayjs(date).endOf("hour").toDate(),
-                },
-            },
-        });
-    }
+  async getByDateTime(date: Date): Promise<Schedule[]> {
+    return this.prisma.schedule.findMany({
+      where: {
+        scheduledDate: {
+          gte: dayjs(date).startOf("hour").toDate(),
+          lte: dayjs(date).endOf("hour").toDate(),
+        },
+      },
+    });
+  }
 
-    getByDay(date: Date): Promise<Schedule[]> {
-        return this.prisma.schedule.findMany({
-            where: {
-                scheduledDate: {
-                    gte: dayjs(date).startOf("day").toDate(),
-                    lte: dayjs(date).endOf("day").toDate(),
-                },
-            },
-        });
-    }
+  getByDay(date: Date): Promise<Schedule[]> {
+    return this.prisma.schedule.findMany({
+      where: {
+        scheduledDate: {
+          gte: dayjs(date).startOf("day").toDate(),
+          lte: dayjs(date).endOf("day").toDate(),
+        },
+      },
+    });
+  }
 }

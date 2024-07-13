@@ -3,6 +3,7 @@ import { ICreateScheduleDTO } from "./CreateScheduleDTO";
 import { CreateScheduleUseCase } from "./CreateScheduleUseCase";
 import { createScheduleBodySchema } from "../../validations/createScheduleBodySchema";
 import { AppError } from "../../errors/AppError";
+import { ZodError } from "zod";
 
 export class CreateScheduleController {
   constructor(private createScheduleUseCase: CreateScheduleUseCase) {}
@@ -16,12 +17,17 @@ export class CreateScheduleController {
     } catch (error) {
       if (error instanceof AppError) {
         return response.status(400).json({
-          message: error.message
-        })
+          message: error.message,
+        });
       }
-      return response.status(400).json({
-        message: "Dados inválidos",
-      });
+      if (error instanceof ZodError) {
+        return response.status(400).json({
+          message: error.errors[0].message,
+        });
+      }
+      return response.status(500).json({
+        message: error
+      })
     }
 
     return response.status(201).send();
