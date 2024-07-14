@@ -40,6 +40,27 @@ export class PrismaScheduleRepository implements ISchedulesRepository {
   }
 
   getSchedules(): Promise<Schedule[]> {
-      return this.prisma.schedule.findMany()
+    return this.prisma.schedule.findMany();
+  }
+
+  async updateSchedule(
+    schedule: Schedule,
+    scheduleId: string
+  ): Promise<Schedule> {
+    return this.prisma.schedule.update({
+      data: {
+        scheduleConclusion: schedule.scheduleConclusion,
+        scheduleCompleted: schedule.scheduleCompleted,
+      },
+      where: {
+        id: scheduleId,
+      },
+    });
+  }
+
+  async getById(scheduleId: string): Promise<Schedule | null> {
+    return this.prisma.schedule.findUnique({
+      where: { id: scheduleId },
+    });
   }
 }

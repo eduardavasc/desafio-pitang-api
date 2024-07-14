@@ -1,7 +1,7 @@
 import { v7 as uuidV7 } from "uuid";
 
 export class Schedule {
-  public readonly id: string;
+  public id: string;
   public scheduledDate: Date;
   public patientName: string;
   public patientBirthDate: Date;
@@ -14,5 +14,6 @@ export class Schedule {
     this.patientName = props.patientName;
     this.patientBirthDate = props.patientBirthDate;
     this.scheduleCompleted = props.scheduleCompleted;
+    this.scheduleConclusion = props.scheduleConclusion;
   }
 }
