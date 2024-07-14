@@ -1,8 +1,8 @@
 import dayjs from "dayjs";
-import { CreateScheduleUseCase } from "./CreateScheduleUseCase";
-import { ICreateScheduleDTO } from "./CreateScheduleDTO";
 import { AppError } from "../../errors/AppError";
 import { InMemoryScheduleRepository } from "../../test/repositories/InMemoryScheduleRepository";
+import { ICreateScheduleDTO } from "./CreateScheduleDTO";
+import { CreateScheduleUseCase } from "./CreateScheduleUseCase";
 
 let schedulesRepository: InMemoryScheduleRepository;
 let useCase: CreateScheduleUseCase;
@@ -41,13 +41,13 @@ describe("Create Schedule", () => {
   it("Should not be able to create more than 20 schedules in the same day", async () => {
     const promises = [];
     for (let i = 0; i < 18; i++) {
-        const promise = useCase.execute({
-            ...payload,
-            scheduledDate: dayjs(payload.scheduledDate)
-                .add(Math.ceil((i + 1) / 2), "hours")
-                .toDate(),
-        });
-        promises.push(promise);
+      const promise = useCase.execute({
+        ...payload,
+        scheduledDate: dayjs(payload.scheduledDate)
+          .add(Math.ceil((i + 1) / 2), "hours")
+          .toDate(),
+      });
+      promises.push(promise);
     }
 
     await Promise.all(promises);

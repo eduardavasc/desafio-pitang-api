@@ -20,4 +20,7 @@ export class InMemoryScheduleRepository implements ISchedulesRepository {
             dayjs(schedule.scheduledDate).isSame(date, "day"),
         );
     }
+    async getSchedules(): Promise<Schedule[]> {
+        return this.schedules
+    }
 }
