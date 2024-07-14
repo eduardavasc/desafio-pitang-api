@@ -38,4 +38,8 @@ export class PrismaScheduleRepository implements ISchedulesRepository {
       },
     });
   }
+
+  getSchedules(): Promise<Schedule[]> {
+      return this.prisma.schedule.findMany()
+  }
 }
