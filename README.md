@@ -1,7 +1,7 @@
 
 # Desafio Final do Processo de Estágio Pitang 2024
 
-Esta API faz parte da solucação para o desafio final do processo de estágio da Pitang 2024, seu objetvo é gerenciar agendamentos, permitindo criar, ler e atualizar. A API é construída usando Node.js e Prisma, com suporte para um banco de dados relacional como PostgreSQL, MySQL, ou SQLite.
+Esta API faz parte da solução para o desafio final do processo de estágio da Pitang 2024, seu objetvo é gerenciar agendamentos, permitindo criar, ler e atualizar. A API é construída usando Node.js e Prisma. 
 
 
 ## Funcionalidades
